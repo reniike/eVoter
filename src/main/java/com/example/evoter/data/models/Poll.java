@@ -10,5 +10,4 @@ public class Poll {
     @Id
     private String voterId;
     private String partyName;
-
 }

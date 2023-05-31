@@ -1,8 +1,8 @@
 package com.example.evoter.services.userService;
 
 
-import com.example.evoter.data.models.User;
-import com.example.evoter.data.repositories.UserRepository;
+import com.example.evoter.data.models.Voter;
+import com.example.evoter.data.repositories.VoterRepository;
 import com.example.evoter.dtos.requests.RegisterUserRequest;
 import com.example.evoter.dtos.responses.RegisterUserResponse;
 import com.example.evoter.exceptions.VoterAlreadyExistException;
@@ -13,22 +13,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService{
     @Autowired
-    private UserRepository userRepository;
-
-
+    private VoterRepository voterRepository;
     @Override
     public RegisterUserResponse registerNewUser(RegisterUserRequest request) throws VoterAlreadyExistException {
         validateDuplicateVoter(request.getEmailAddress());
-        User user = Mapper.map(request);
-        User returnedUser = userRepository.save(user);
-        RegisterUserResponse response = Mapper.map(returnedUser);
+        Voter voter = Mapper.map(request);
+        Voter returnedVoter = voterRepository.save(voter);
+        RegisterUserResponse response = Mapper.map(returnedVoter);
         return response;
     }
 
     private void validateDuplicateVoter(String emailAddress) throws VoterAlreadyExistException {
-        if (userRepository.findByEmailAddress(emailAddress).isPresent())
+        if (voterRepository.findByEmailAddress(emailAddress).isPresent())
             throw new VoterAlreadyExistException("Voter with "+emailAddress+" has been registered");
     }
-
-
 }

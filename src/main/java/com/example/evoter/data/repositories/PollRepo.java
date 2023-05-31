@@ -1,13 +1,17 @@
 package com.example.evoter.data.repositories;
 
 import com.example.evoter.data.models.Poll;
-import com.example.evoter.data.models.User;
+import com.example.evoter.data.models.Voter;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface PollRepo extends MongoRepository<Poll, String> {
 
-    User findByVoterId(String voterId);
+    Voter findByVoterId(String voterId);
+
+    List<Poll> findPollsByPartyName(String partyName);
+
+    long countPollsByPartyName(String partyName);
 
 }

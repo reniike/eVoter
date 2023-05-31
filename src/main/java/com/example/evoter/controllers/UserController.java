@@ -12,11 +12,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/user/test/{anything}")
-    public Object test(@PathVariable String anything){
-        return "Hello Renike"+ anything;
-    }
-
     @PostMapping("/user/register")
     public Object register(@RequestBody RegisterUserRequest request){
         try{

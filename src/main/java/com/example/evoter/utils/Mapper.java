@@ -2,7 +2,7 @@ package com.example.evoter.utils;
 
 import com.example.evoter.data.models.Party;
 import com.example.evoter.data.models.Poll;
-import com.example.evoter.data.models.User;
+import com.example.evoter.data.models.Voter;
 import com.example.evoter.dtos.requests.RegisterPartyRequest;
 import com.example.evoter.dtos.requests.RegisterUserRequest;
 import com.example.evoter.dtos.requests.VoteRequest;
@@ -11,22 +11,22 @@ import com.example.evoter.dtos.responses.RegisterUserResponse;
 import com.example.evoter.dtos.responses.VoteResponse;
 
 public class Mapper {
-    public static User map(RegisterUserRequest request){
-        User user = new User();
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setAge(request.getAge());
-        user.setEmailAddress(request.getEmailAddress());
-        user.setPassword(request.getPassword());
-        return user;
+    public static Voter map(RegisterUserRequest request){
+        Voter voter = new Voter();
+        voter.setFirstName(request.getFirstName());
+        voter.setLastName(request.getLastName());
+        voter.setAge(request.getAge());
+        voter.setEmailAddress(request.getEmailAddress());
+        voter.setPassword(request.getPassword());
+        return voter;
     }
 
-    public static RegisterUserResponse map(User user) {
+    public static RegisterUserResponse map(Voter voter) {
         RegisterUserResponse response = new RegisterUserResponse();
-        response.setName(user.getFirstName() + " " + user.getLastName());
-        response.setEmailAddress(user.getEmailAddress());
-        response.setUserId(user.getId());
-        response.setAge(user.getAge());
+        response.setName(voter.getFirstName() + " " + voter.getLastName());
+        response.setEmailAddress(voter.getEmailAddress());
+        response.setUserId(voter.getId());
+        response.setAge(voter.getAge());
         return response;
     }
     public static VoteResponse map(Poll poll){
