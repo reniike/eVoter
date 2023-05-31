@@ -4,14 +4,14 @@ import com.example.evoter.data.models.Party;
 import com.example.evoter.data.models.Poll;
 import com.example.evoter.data.models.Voter;
 import com.example.evoter.dtos.requests.RegisterPartyRequest;
-import com.example.evoter.dtos.requests.RegisterUserRequest;
+import com.example.evoter.dtos.requests.RegisterVoterRequest;
 import com.example.evoter.dtos.requests.VoteRequest;
 import com.example.evoter.dtos.responses.RegisterPartyResponse;
-import com.example.evoter.dtos.responses.RegisterUserResponse;
+import com.example.evoter.dtos.responses.RegisterVoterResponse;
 import com.example.evoter.dtos.responses.VoteResponse;
 
 public class Mapper {
-    public static Voter map(RegisterUserRequest request){
+    public static Voter map(RegisterVoterRequest request){
         Voter voter = new Voter();
         voter.setFirstName(request.getFirstName());
         voter.setLastName(request.getLastName());
@@ -21,11 +21,11 @@ public class Mapper {
         return voter;
     }
 
-    public static RegisterUserResponse map(Voter voter) {
-        RegisterUserResponse response = new RegisterUserResponse();
+    public static RegisterVoterResponse map(Voter voter) {
+        RegisterVoterResponse response = new RegisterVoterResponse();
         response.setName(voter.getFirstName() + " " + voter.getLastName());
         response.setEmailAddress(voter.getEmailAddress());
-        response.setUserId(voter.getId());
+        response.setVoterId(voter.getId());
         response.setAge(voter.getAge());
         return response;
     }

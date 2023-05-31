@@ -1,21 +1,21 @@
 package com.example.evoter.controllers;
 
-import com.example.evoter.dtos.requests.RegisterUserRequest;
+import com.example.evoter.dtos.requests.RegisterVoterRequest;
 import com.example.evoter.exceptions.VoterAlreadyExistException;
-import com.example.evoter.services.userService.UserService;
+import com.example.evoter.services.voterService.VoterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class UserController {
+public class VoterController {
 
     @Autowired
-    private UserService userService;
+    private VoterService voterService;
 
     @PostMapping("/user/register")
-    public Object register(@RequestBody RegisterUserRequest request){
+    public Object register(@RequestBody RegisterVoterRequest request){
         try{
-            return userService.registerNewUser(request);
+            return voterService.registerNewVoter(request);
         }catch (VoterAlreadyExistException e){
             return e.getMessage();
         }

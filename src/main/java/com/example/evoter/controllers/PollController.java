@@ -1,10 +1,8 @@
 package com.example.evoter.controllers;
 
-import com.example.evoter.dtos.requests.RegisterUserRequest;
 import com.example.evoter.dtos.requests.VoteRequest;
 import com.example.evoter.exceptions.OverVotingException;
 import com.example.evoter.exceptions.PartyDoesNotExistException;
-import com.example.evoter.exceptions.VoterAlreadyExistException;
 import com.example.evoter.services.pollService.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
