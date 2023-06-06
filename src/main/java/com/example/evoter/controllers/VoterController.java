@@ -18,6 +18,8 @@ public class VoterController {
             return voterService.registerNewVoter(request);
         }catch (VoterAlreadyExistException e){
             return e.getMessage();
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
         }
     }
 

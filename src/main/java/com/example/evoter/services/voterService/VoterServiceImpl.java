@@ -4,19 +4,16 @@ package com.example.evoter.services.voterService;
 import com.example.evoter.data.models.Voter;
 import com.example.evoter.data.repositories.VoterRepository;
 import com.example.evoter.dtos.requests.RegisterVoterRequest;
-import com.example.evoter.dtos.requests.VoterLogInRequest;
 import com.example.evoter.dtos.responses.RegisterVoterResponse;
-import com.example.evoter.dtos.responses.VoterLogInResponse;
 import com.example.evoter.exceptions.VoterAlreadyExistException;
-import com.example.evoter.exceptions.VoterNotRegisteredException;
-import com.example.evoter.exceptions.WrongPasswordException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.lang.reflect.Field;
+import java.util.Objects;
 
 import static com.example.evoter.utils.AppUtils.*;
 
@@ -28,9 +25,10 @@ public class VoterServiceImpl implements VoterService {
     private final VoterRepository voterRepository;
     private final ModelMapper modelMapper;
 
-
+    //You are doing very well. I'm proud!
     @Override
-    public RegisterVoterResponse registerNewVoter(RegisterVoterRequest registerVoterRequest) throws VoterAlreadyExistException {
+    public RegisterVoterResponse registerNewVoter(RegisterVoterRequest registerVoterRequest) throws VoterAlreadyExistException, IllegalAccessException {
+        if (requestHasNullFields(registerVoterRequest)) throw new IllegalAccessException();
         validateDuplicateVoter(registerVoterRequest.getEmailAddress());
         Voter voter = modelMapper.map(registerVoterRequest, Voter.class);
         hashPassword(registerVoterRequest.getPassword());
@@ -40,8 +38,20 @@ public class VoterServiceImpl implements VoterService {
         return registerVoterResponse;
     }
 
+    private boolean requestHasNullFields(RegisterVoterRequest registerVoterRequest) {
+        return registerVoterRequest.getEmailAddress() == null ||
+                registerVoterRequest.getEmailAddress().isBlank() ||
+                registerVoterRequest.getPassword() == null ||
+                registerVoterRequest.getPassword().isBlank() ||
+                registerVoterRequest.getAge() == 0 ||
+                registerVoterRequest.getFirstName() == null ||
+                registerVoterRequest.getFirstName().isBlank() ||
+                registerVoterRequest.getLastName() == null ||
+                registerVoterRequest.getFirstName().isBlank();
+    }
 
-    private static RegisterVoterResponse buildVoterResponse(Voter voter){
+
+    private static RegisterVoterResponse buildVoterResponse(Voter voter) {
         return RegisterVoterResponse.builder()
                 .name(voter.getFirstName() + " " + voter.getLastName())
                 .voterId(voter.getId())
@@ -49,13 +59,14 @@ public class VoterServiceImpl implements VoterService {
                 .build();
     }
 
-        private void validateDuplicateVoter(String emailAddress) throws VoterAlreadyExistException {
+    private void validateDuplicateVoter(String emailAddress) throws VoterAlreadyExistException {
         if (voterRepository.findByEmailAddress(emailAddress).isPresent())
             throw new VoterAlreadyExistException(String.format(VOTER_WITH_EMAIL_EXISTS, emailAddress));
     }
+
     @Override
     public long countAllVoters() {
-       return voterRepository.count();
+        return voterRepository.count();
     }
 
 

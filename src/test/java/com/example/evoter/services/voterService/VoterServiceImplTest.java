@@ -21,7 +21,7 @@ class VoterServiceImplTest {
 
     @Test
     @DisplayName("Register voter test")
-    public void testThatVoterCanBeRegistered() throws VoterAlreadyExistException {
+    public void testThatVoterCanBeRegistered() throws VoterAlreadyExistException, IllegalAccessException {
         voterRepository.deleteAll();
         voterRequest = new RegisterVoterRequest();
         voterRequest.setFirstName("Aliyah");
@@ -32,6 +32,19 @@ class VoterServiceImplTest {
         voterService.registerNewVoter(voterRequest);
         assertEquals(ONE, voterRepository.count());
         assertNotNull(voterRepository);
+    }
+
+    @Test
+    @DisplayName("Null Fields cannot be registered")
+    public void testThatNullFieldsCannotBeRegistered() {
+        voterRepository.deleteAll();
+        voterRequest = new RegisterVoterRequest();
+        voterRequest.setFirstName("");
+        voterRequest.setLastName("");
+        voterRequest.setAge(0);
+        voterRequest.setEmailAddress("");
+        voterRequest.setPassword("");
+        assertThrows(IllegalAccessException.class,() -> voterService.registerNewVoter(voterRequest));
     }
 
 }

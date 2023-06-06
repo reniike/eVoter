@@ -11,7 +11,7 @@ import com.example.evoter.exceptions.WrongPasswordException;
 
 
 public interface VoterService {
-    RegisterVoterResponse registerNewVoter(RegisterVoterRequest registerVoterRequest)throws VoterAlreadyExistException ;
+    RegisterVoterResponse registerNewVoter(RegisterVoterRequest registerVoterRequest) throws VoterAlreadyExistException, IllegalAccessException;
 
     long countAllVoters();
 
