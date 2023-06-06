@@ -14,8 +14,10 @@ import java.util.Optional;
 
 @Service
 public class PartyServiceImpl implements PartyService{
+
     @Autowired
     private PartyRepository partyRepository;
+
 
     @Override
     public RegisterPartyResponse registerNewParty(RegisterPartyRequest request) throws PartyAlreadyExistException {
@@ -25,7 +27,7 @@ public class PartyServiceImpl implements PartyService{
 
     private void validatePartyExistence(String name) throws PartyAlreadyExistException {
         if (partyRepository.findByName(name).isPresent())
-            throw new PartyAlreadyExistException("Party with "+name+" already exist.");
+            throw new PartyAlreadyExistException("Party with "+ name +" already exist.");
     }
 
     public RegisterPartyResponse findByName(String name) throws PartyDoesNotExistException {
