@@ -21,14 +21,14 @@ public class Mapper {
         return voter;
     }
 
-    public static RegisterVoterResponse map(Voter voter) {
-        RegisterVoterResponse response = new RegisterVoterResponse();
-        response.setName(voter.getFirstName() + " " + voter.getLastName());
-        response.setEmailAddress(voter.getEmailAddress());
-        response.setVoterId(voter.getId());
-        response.setAge(voter.getAge());
-        return response;
-    }
+//    public static RegisterVoterResponse map(Voter voter) {
+//        RegisterVoterResponse response = new RegisterVoterResponse();
+//        response.setName(voter.getFirstName() + " " + voter.getLastName());
+//        response.setEmailAddress(voter.getEmailAddress());
+//        response.setVoterId(voter.getId());
+//        response.setAge(voter.getAge());
+//        return response;
+//    }
     public static VoteResponse map(Poll poll){
         VoteResponse voteResponse = new VoteResponse();
         voteResponse.setPartyName(poll.getPartyName());

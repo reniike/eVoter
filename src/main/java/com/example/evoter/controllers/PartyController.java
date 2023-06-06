@@ -6,6 +6,7 @@ import com.example.evoter.dtos.responses.RegisterPartyResponse;
 import com.example.evoter.exceptions.OverVotingException;
 import com.example.evoter.exceptions.PartyAlreadyExistException;
 import com.example.evoter.services.partyService.PartyService;
+import com.example.evoter.services.partyService.PartyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
