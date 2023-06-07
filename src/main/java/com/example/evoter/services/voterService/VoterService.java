@@ -14,5 +14,6 @@ public interface VoterService {
     RegisterVoterResponse registerNewVoter(RegisterVoterRequest registerVoterRequest) throws VoterAlreadyExistException, IllegalAccessException;
 
     long countAllVoters();
+    VoterLogInResponse logIn(VoterLogInRequest voterLogInRequest) throws WrongPasswordException, VoterNotRegisteredException;
 
 }
