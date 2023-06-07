@@ -47,4 +47,9 @@ class VoterServiceImplTest {
         assertThrows(IllegalAccessException.class,() -> voterService.registerNewVoter(voterRequest));
     }
 
+    @Test
+    @DisplayName("Invalid email fields cannot register")
+    public void testThatInvalidEmailFieldsCannotRegister(){
+
+    }
 }
