@@ -25,7 +25,6 @@ public class VoterServiceImpl implements VoterService {
     private final VoterRepository voterRepository;
     private final ModelMapper modelMapper;
 
-    //You are doing very well. I'm proud!
     @Override
     public RegisterVoterResponse registerNewVoter(RegisterVoterRequest registerVoterRequest) throws VoterAlreadyExistException, IllegalAccessException {
         if (requestHasNullFields(registerVoterRequest)) throw new IllegalAccessException();
