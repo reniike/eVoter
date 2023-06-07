@@ -67,4 +67,12 @@ class VoterServiceImplTest {
         assertNotNull(voterLogInResponse.getId());
     }
 
+    @Test
+    @DisplayName("Unregistered voter can't log in")
+    public void unregisteredVoterCan_tLogInTest() {
+        VoterLogInRequest voterLogInRequest = new VoterLogInRequest();
+        voterLogInRequest.setEmailAddress("eniola@gmail.com");
+        voterLogInRequest.setPassword("1234");
+        assertThrows(VoterNotRegisteredException.class, () -> voterService.logIn(voterLogInRequest));
+    }
 }
