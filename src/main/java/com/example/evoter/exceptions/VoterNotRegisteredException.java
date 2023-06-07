@@ -1,6 +1,8 @@
 package com.example.evoter.exceptions;
 
-public class VoterNotRegisteredException extends  eVotingAppException{
+import com.example.evoter.utils.eVotingAppException;
+
+public class VoterNotRegisteredException extends eVotingAppException {
     public VoterNotRegisteredException(String message) {
         super(message);
     }

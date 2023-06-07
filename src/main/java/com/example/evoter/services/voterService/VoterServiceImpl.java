@@ -7,6 +7,7 @@ import com.example.evoter.dtos.requests.RegisterVoterRequest;
 import com.example.evoter.dtos.requests.VoterLogInRequest;
 import com.example.evoter.dtos.responses.RegisterVoterResponse;
 import com.example.evoter.dtos.responses.VoterLogInResponse;
+import com.example.evoter.exceptions.InvalidEmailFormatException;
 import com.example.evoter.exceptions.VoterAlreadyExistException;
 import com.example.evoter.exceptions.VoterNotRegisteredException;
 import com.example.evoter.exceptions.WrongPasswordException;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 import static com.example.evoter.utils.AppUtils.*;
 
@@ -29,8 +31,9 @@ public class VoterServiceImpl implements VoterService {
     private final ModelMapper modelMapper;
 
     @Override
-    public RegisterVoterResponse registerNewVoter(RegisterVoterRequest registerVoterRequest) throws VoterAlreadyExistException, IllegalAccessException {
+    public RegisterVoterResponse registerNewVoter(RegisterVoterRequest registerVoterRequest) throws VoterAlreadyExistException, IllegalAccessException, InvalidEmailFormatException {
         if (requestHasNullFields(registerVoterRequest)) throw new IllegalAccessException();
+        validateEmailFormat(registerVoterRequest.getEmailAddress());
         validateDuplicateVoter(registerVoterRequest.getEmailAddress());
         Voter voter = modelMapper.map(registerVoterRequest, Voter.class);
         hashPassword(registerVoterRequest.getPassword());
@@ -39,6 +42,9 @@ public class VoterServiceImpl implements VoterService {
         log.info(String.format(VOTER_REGISTERED_SUCCESSFULLY, registerVoterResponse.getEmailAddress()));
         return registerVoterResponse;
     }
+
+
+
     private boolean requestHasNullFields(RegisterVoterRequest registerVoterRequest) {
         return registerVoterRequest.getEmailAddress() == null ||
                 registerVoterRequest.getEmailAddress().isBlank() ||
@@ -88,6 +94,12 @@ public class VoterServiceImpl implements VoterService {
     private void validateDuplicateVoter(String emailAddress) throws VoterAlreadyExistException {
         if (voterRepository.findByEmailAddress(emailAddress).isPresent()) {
             throw new VoterAlreadyExistException(String.format(VOTER_WITH_EMAIL_EXISTS, emailAddress));
+        }
+    }
+
+    private void validateEmailFormat(String emailAddress) throws InvalidEmailFormatException {
+        if (!Pattern.matches(EMAIL_PATTERN, emailAddress)){
+            throw new InvalidEmailFormatException("Invalid email format");
         }
     }
 

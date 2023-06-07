@@ -4,6 +4,7 @@ import com.example.evoter.data.repositories.VoterRepository;
 import com.example.evoter.dtos.requests.RegisterVoterRequest;
 import com.example.evoter.dtos.requests.VoterLogInRequest;
 import com.example.evoter.dtos.responses.VoterLogInResponse;
+import com.example.evoter.exceptions.InvalidEmailFormatException;
 import com.example.evoter.exceptions.VoterAlreadyExistException;
 import com.example.evoter.exceptions.VoterNotRegisteredException;
 import com.example.evoter.exceptions.WrongPasswordException;
@@ -25,7 +26,7 @@ class VoterServiceImplTest {
     private VoterRepository voterRepository;
     private RegisterVoterRequest voterRequest;
     @BeforeEach
-    public void setUp() throws VoterAlreadyExistException, IllegalAccessException {
+    public void setUp() throws VoterAlreadyExistException, IllegalAccessException, InvalidEmailFormatException {
         voterRepository.deleteAll();
         voterRequest = new RegisterVoterRequest();
         voterRequest.setFirstName("Aliyah");
@@ -83,9 +84,16 @@ class VoterServiceImplTest {
         assertThrows(WrongPasswordException.class, () -> voterService.logIn(voterLogInRequest));
     }
     @Test
-    @DisplayName("Invalid email fields cannot register")
-    public void testThatInvalidEmailFieldsCannotRegister(){
-
+    @DisplayName("Invalid email format throws an exception")
+    public void testThatInvalidEmailFormatThrowsAnException() {
+        voterRequest = new RegisterVoterRequest();
+        voterRequest.setFirstName("Aliyah");
+        voterRequest.setLastName("Eniola");
+        voterRequest.setAge(19);
+        voterRequest.setEmailAddress("aliyahgmail.com");
+        voterRequest.setPassword("1234");
+        assertThrows(InvalidEmailFormatException.class, () -> voterService.registerNewVoter(voterRequest));
     }
+
 
 }

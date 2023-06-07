@@ -9,6 +9,8 @@ public class AppUtils {
     public static final String VOTER_WITH_EMAIL_EXISTS = "Voter with %s exists";
     public static final String VOTER_SUCCESSFULLY_LOGGED_IN = "Voter successfully logged in";
 
+    public static final String EMAIL_PATTERN = "^(.+)@(.+)$";
+
     public static String hashPassword(String password){
         int complexity = 10;
         BCrypt.Hasher hasher = BCrypt.withDefaults();

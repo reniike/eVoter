@@ -1,4 +1,4 @@
-package com.example.evoter.exceptions;
+package com.example.evoter.utils;
 
 public class eVotingAppException extends Exception {
     public eVotingAppException(String message){

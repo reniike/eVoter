@@ -1,6 +1,7 @@
 package com.example.evoter.controllers;
 
 import com.example.evoter.dtos.requests.RegisterVoterRequest;
+import com.example.evoter.exceptions.InvalidEmailFormatException;
 import com.example.evoter.exceptions.VoterAlreadyExistException;
 import com.example.evoter.services.voterService.VoterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class VoterController {
             return voterService.registerNewVoter(request);
         }catch (VoterAlreadyExistException e){
             return e.getMessage();
-        } catch (IllegalAccessException e) {
+        } catch (IllegalAccessException | InvalidEmailFormatException e) {
             throw new RuntimeException(e);
         }
     }
