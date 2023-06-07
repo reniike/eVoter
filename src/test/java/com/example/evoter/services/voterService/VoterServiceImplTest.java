@@ -75,4 +75,13 @@ class VoterServiceImplTest {
         voterLogInRequest.setPassword("1234");
         assertThrows(VoterNotRegisteredException.class, () -> voterService.logIn(voterLogInRequest));
     }
+    @Test
+    @DisplayName("Wrong password throws an exception")
+    public void userWithWrongPasswordCan_tLoginTest(){
+        VoterLogInRequest voterLogInRequest = new VoterLogInRequest();
+        voterLogInRequest.setEmailAddress("aliyah@gmail.com");
+        voterLogInRequest.setPassword("1235");
+        assertThrows(WrongPasswordException.class, () -> voterService.logIn(voterLogInRequest));
+    }
+
 }
