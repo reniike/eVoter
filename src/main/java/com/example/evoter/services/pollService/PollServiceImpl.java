@@ -1,36 +1,29 @@
 package com.example.evoter.services.pollService;
 
 import com.example.evoter.data.models.Party;
-import com.example.evoter.data.models.Poll;
 import com.example.evoter.data.repositories.PartyRepository;
 import com.example.evoter.data.repositories.PollRepo;
 import com.example.evoter.dtos.requests.VoteRequest;
 import com.example.evoter.dtos.responses.VoteResponse;
-import com.example.evoter.exceptions.OverVotingException;
-import com.example.evoter.exceptions.PartyDoesNotExistException;
-import com.example.evoter.services.partyService.PartyService;
 import com.example.evoter.utils.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
+import static com.example.evoter.utils.validations.PartyValidations.validatePartyExistence;
+import static com.example.evoter.utils.validations.PollValidations.validateOverVoting;
 
 @Service
+@AllArgsConstructor
 public class PollServiceImpl implements PollService{
-    @Autowired
-    PollRepo pollRepo;
-    @Autowired
-    PartyRepository partyRepository;
-    @Autowired
-    PartyService partyService;
+    private final PollRepo pollRepo;
+    private final PartyRepository partyRepository;
 
     @Override
-    public VoteResponse castVote(VoteRequest voteRequest) throws OverVotingException, PartyDoesNotExistException {
-        validateOverVoting(voteRequest.getVoterId());
-        validatePartyExistence(voteRequest.getPartyName());
+    public VoteResponse castVote(VoteRequest voteRequest){
+        validateOverVoting(voteRequest.getVoterId(), pollRepo);
+        validatePartyExistence(voteRequest.getPartyName(), partyRepository);
         return Mapper.map(pollRepo.save(Mapper.map(voteRequest)));
     }
     @Override
@@ -45,12 +38,5 @@ public class PollServiceImpl implements PollService{
             map.put(party.getName(), pollRepo.countPollsByPartyName(party.getName()));
         }
         return map;
-    }
-    private void validatePartyExistence(String partyName) throws PartyDoesNotExistException {
-        partyService.findByName(partyName);
-    }
-
-    private void validateOverVoting(String voterId) throws OverVotingException {
-        if (pollRepo.findByVoterId(voterId) != null) throw new OverVotingException("Voter has already voted");
     }
 }
