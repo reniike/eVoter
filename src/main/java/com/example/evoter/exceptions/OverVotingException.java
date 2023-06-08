@@ -1,6 +1,8 @@
 package com.example.evoter.exceptions;
 
-public class OverVotingException extends Exception {
+import com.example.evoter.utils.EVotingAppException;
+
+public class OverVotingException extends EVotingAppException {
     public OverVotingException(String message) {
         super(message);
     }

@@ -1,8 +1,8 @@
 package com.example.evoter.exceptions;
 
-import com.example.evoter.utils.eVotingAppException;
+import com.example.evoter.utils.EVotingAppException;
 
-public class InvalidEmailFormatException extends eVotingAppException {
+public class InvalidEmailFormatException extends EVotingAppException {
     public InvalidEmailFormatException(String message) {
         super(message);
     }

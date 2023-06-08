@@ -2,12 +2,14 @@ package com.example.evoter.dtos.responses;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 @Builder
 public class RegisterVoterResponse {
     private String voterId;
     private String name;
     private String emailAddress;
-    private int age;
 }

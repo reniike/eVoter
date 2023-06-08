@@ -4,10 +4,7 @@ import com.example.evoter.data.repositories.VoterRepository;
 import com.example.evoter.dtos.requests.RegisterVoterRequest;
 import com.example.evoter.dtos.requests.VoterLogInRequest;
 import com.example.evoter.dtos.responses.VoterLogInResponse;
-import com.example.evoter.exceptions.InvalidEmailFormatException;
-import com.example.evoter.exceptions.VoterAlreadyExistException;
-import com.example.evoter.exceptions.VoterNotRegisteredException;
-import com.example.evoter.exceptions.WrongPasswordException;
+import com.example.evoter.exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,7 +23,7 @@ class VoterServiceImplTest {
     private VoterRepository voterRepository;
     private RegisterVoterRequest voterRequest;
     @BeforeEach
-    public void setUp() throws VoterAlreadyExistException, IllegalAccessException, InvalidEmailFormatException {
+    public void setUp() throws VoterAlreadyExistException, IllegalAccessException, InvalidEmailFormatException, RequestHasNullFieldException {
         voterRepository.deleteAll();
         voterRequest = new RegisterVoterRequest();
         voterRequest.setFirstName("Aliyah");
@@ -47,14 +44,13 @@ class VoterServiceImplTest {
     @Test
     @DisplayName("Null Fields cannot be registered")
     public void testThatNullFieldsCannotBeRegistered() {
-        voterRepository.deleteAll();
         voterRequest = new RegisterVoterRequest();
         voterRequest.setFirstName("");
         voterRequest.setLastName("");
         voterRequest.setAge(0);
         voterRequest.setEmailAddress("");
         voterRequest.setPassword("");
-        assertThrows(IllegalAccessException.class,() -> voterService.registerNewVoter(voterRequest));
+        assertThrows(RequestHasNullFieldException.class,() -> voterService.registerNewVoter(voterRequest));
     }
     @Test
     @DisplayName("Login Test")
@@ -90,10 +86,8 @@ class VoterServiceImplTest {
         voterRequest.setFirstName("Aliyah");
         voterRequest.setLastName("Eniola");
         voterRequest.setAge(19);
-        voterRequest.setEmailAddress("aliyahgmail.com");
+        voterRequest.setEmailAddress("aliyah1gmail.com");
         voterRequest.setPassword("1234");
         assertThrows(InvalidEmailFormatException.class, () -> voterService.registerNewVoter(voterRequest));
     }
-
-
 }

@@ -7,10 +7,7 @@ import com.example.evoter.dtos.requests.RegisterVoterRequest;
 import com.example.evoter.dtos.requests.VoterLogInRequest;
 import com.example.evoter.dtos.responses.RegisterVoterResponse;
 import com.example.evoter.dtos.responses.VoterLogInResponse;
-import com.example.evoter.exceptions.InvalidEmailFormatException;
-import com.example.evoter.exceptions.VoterAlreadyExistException;
-import com.example.evoter.exceptions.VoterNotRegisteredException;
-import com.example.evoter.exceptions.WrongPasswordException;
+import com.example.evoter.exceptions.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -26,13 +23,12 @@ import static com.example.evoter.utils.AppUtils.*;
 @AllArgsConstructor
 @Slf4j
 public class VoterServiceImpl implements VoterService {
-    @Autowired
     private final VoterRepository voterRepository;
     private final ModelMapper modelMapper;
 
     @Override
-    public RegisterVoterResponse registerNewVoter(RegisterVoterRequest registerVoterRequest) throws VoterAlreadyExistException, IllegalAccessException, InvalidEmailFormatException {
-        if (requestHasNullFields(registerVoterRequest)) throw new IllegalAccessException();
+    public RegisterVoterResponse registerNewVoter(RegisterVoterRequest registerVoterRequest) {
+        validateRequestFields(registerVoterRequest);
         validateEmailFormat(registerVoterRequest.getEmailAddress());
         validateDuplicateVoter(registerVoterRequest.getEmailAddress());
         Voter voter = modelMapper.map(registerVoterRequest, Voter.class);
@@ -44,9 +40,8 @@ public class VoterServiceImpl implements VoterService {
     }
 
 
-
-    private boolean requestHasNullFields(RegisterVoterRequest registerVoterRequest) {
-        return registerVoterRequest.getEmailAddress() == null ||
+    private void validateRequestFields(RegisterVoterRequest registerVoterRequest) {
+        if (registerVoterRequest.getEmailAddress() == null ||
                 registerVoterRequest.getEmailAddress().isBlank() ||
                 registerVoterRequest.getPassword() == null ||
                 registerVoterRequest.getPassword().isBlank() ||
@@ -54,7 +49,8 @@ public class VoterServiceImpl implements VoterService {
                 registerVoterRequest.getFirstName() == null ||
                 registerVoterRequest.getFirstName().isBlank() ||
                 registerVoterRequest.getLastName() == null ||
-                registerVoterRequest.getFirstName().isBlank();
+                registerVoterRequest.getFirstName().isBlank())
+            throw new RequestHasNullFieldException("All Fields are required");
     }
 
 
@@ -73,7 +69,7 @@ public class VoterServiceImpl implements VoterService {
     }
 
     @Override
-    public VoterLogInResponse logIn(VoterLogInRequest voterLogInRequest) throws WrongPasswordException, VoterNotRegisteredException {
+    public VoterLogInResponse logIn(VoterLogInRequest voterLogInRequest) {
         Optional<Voter> foundVoter = voterRepository.findByEmailAddress(voterLogInRequest.getEmailAddress());
         validateRegisteredVoter(foundVoter);
         Voter voter = foundVoter.get();
@@ -85,22 +81,20 @@ public class VoterServiceImpl implements VoterService {
                 .build();
     }
 
-    private void validateRegisteredVoter(Optional<Voter> voter) throws VoterNotRegisteredException {
-        if (voter.isEmpty()){
+    private void validateRegisteredVoter(Optional<Voter> voter) {
+        if (voter.isEmpty())
             throw new VoterNotRegisteredException("Voter not registered!");
-        }
     }
 
-    private void validateDuplicateVoter(String emailAddress) throws VoterAlreadyExistException {
-        if (voterRepository.findByEmailAddress(emailAddress).isPresent()) {
+    private void validateDuplicateVoter(String emailAddress) {
+        if (voterRepository.findByEmailAddress(emailAddress).isPresent())
             throw new VoterAlreadyExistException(String.format(VOTER_WITH_EMAIL_EXISTS, emailAddress));
-        }
+
     }
 
-    private void validateEmailFormat(String emailAddress) throws InvalidEmailFormatException {
-        if (!Pattern.matches(EMAIL_PATTERN, emailAddress)){
+    private void validateEmailFormat(String emailAddress) {
+        if (!Pattern.matches(EMAIL_PATTERN, emailAddress))
             throw new InvalidEmailFormatException("Invalid email format");
-        }
     }
 
 }
