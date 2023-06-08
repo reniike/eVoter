@@ -23,7 +23,7 @@ class VoterServiceImplTest {
     private VoterRepository voterRepository;
     private RegisterVoterRequest voterRequest;
     @BeforeEach
-    public void setUp() throws VoterAlreadyExistException, IllegalAccessException, InvalidEmailFormatException, RequestHasNullFieldException {
+    public void setUp(){
         voterRepository.deleteAll();
         voterRequest = new RegisterVoterRequest();
         voterRequest.setFirstName("Aliyah");
@@ -89,5 +89,17 @@ class VoterServiceImplTest {
         voterRequest.setEmailAddress("aliyah1gmail.com");
         voterRequest.setPassword("1234");
         assertThrows(InvalidEmailFormatException.class, () -> voterService.registerNewVoter(voterRequest));
+    }
+
+    @Test
+    @DisplayName("User below 18 cannot register")
+    public void userBelowEighteenCannotRegisterTest(){
+        voterRequest = new RegisterVoterRequest();
+        voterRequest.setFirstName("Aliyah");
+        voterRequest.setLastName("Eniola");
+        voterRequest.setAge(17);
+        voterRequest.setEmailAddress("aliyah22@gmail.com");
+        voterRequest.setPassword("1234");
+        assertThrows(UnderageVotingException.class, () -> voterService.registerNewVoter(voterRequest));
     }
 }

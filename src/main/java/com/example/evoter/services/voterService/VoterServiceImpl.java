@@ -29,6 +29,7 @@ public class VoterServiceImpl implements VoterService {
     @Override
     public RegisterVoterResponse registerNewVoter(RegisterVoterRequest registerVoterRequest) {
         validateRequestFields(registerVoterRequest);
+        validateVoterAge(registerVoterRequest.getAge());
         validateEmailFormat(registerVoterRequest.getEmailAddress());
         validateDuplicateVoter(registerVoterRequest.getEmailAddress());
         Voter voter = modelMapper.map(registerVoterRequest, Voter.class);
@@ -37,6 +38,10 @@ public class VoterServiceImpl implements VoterService {
         RegisterVoterResponse registerVoterResponse = buildVoterResponse(voter);
         log.info(String.format(VOTER_REGISTERED_SUCCESSFULLY, registerVoterResponse.getEmailAddress()));
         return registerVoterResponse;
+    }
+
+    private void validateVoterAge(int age) {
+        if (age < EIGTHEEN) throw new UnderageVotingException(MINIMUM_VOTER_AGE_IS_EIGHTEEN);
     }
 
 

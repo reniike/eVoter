@@ -5,10 +5,11 @@ import com.example.evoter.exceptions.WrongPasswordException;
 
 public class AppUtils {
     public static final int ONE = 1;
+    public static final int EIGTHEEN = 18;
     public static final String VOTER_REGISTERED_SUCCESSFULLY = "Voter with %s registered successfully";
     public static final String VOTER_WITH_EMAIL_EXISTS = "Voter with %s exists";
     public static final String VOTER_SUCCESSFULLY_LOGGED_IN = "Voter successfully logged in";
-
+    public static final String MINIMUM_VOTER_AGE_IS_EIGHTEEN =  "Minimum voting age is 18 years old";
     public static final String EMAIL_PATTERN = "^(.+)@(.+)$";
 
     public static String hashPassword(String password){
