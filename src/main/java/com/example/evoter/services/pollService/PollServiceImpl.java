@@ -23,7 +23,6 @@ public class PollServiceImpl implements PollService{
     @Override
     public VoteResponse castVote(VoteRequest voteRequest){
         validateOverVoting(voteRequest.getVoterId(), pollRepo);
-        validatePartyExistence(voteRequest.getPartyName(), partyRepository);
         return Mapper.map(pollRepo.save(Mapper.map(voteRequest)));
     }
     @Override

@@ -2,39 +2,22 @@ package com.example.evoter.utils;
 
 import com.example.evoter.data.models.Party;
 import com.example.evoter.data.models.Poll;
-import com.example.evoter.data.models.Voter;
 import com.example.evoter.dtos.requests.RegisterPartyRequest;
-import com.example.evoter.dtos.requests.RegisterVoterRequest;
 import com.example.evoter.dtos.requests.VoteRequest;
 import com.example.evoter.dtos.responses.RegisterPartyResponse;
-import com.example.evoter.dtos.responses.RegisterVoterResponse;
 import com.example.evoter.dtos.responses.VoteResponse;
 
-public class Mapper {
-    public static Voter map(RegisterVoterRequest request){
-        Voter voter = new Voter();
-        voter.setFirstName(request.getFirstName());
-        voter.setLastName(request.getLastName());
-        voter.setAge(request.getAge());
-        voter.setEmailAddress(request.getEmailAddress());
-        voter.setPassword(request.getPassword());
-        return voter;
-    }
+import static com.example.evoter.utils.AppUtils.VOTE_SUCCESSFUL;
 
-//    public static RegisterVoterResponse map(Voter voter) {
-//        RegisterVoterResponse response = new RegisterVoterResponse();
-//        response.setName(voter.getFirstName() + " " + voter.getLastName());
-//        response.setEmailAddress(voter.getEmailAddress());
-//        response.setVoterId(voter.getId());
-//        response.setAge(voter.getAge());
-//        return response;
-//    }
+public class Mapper {
     public static VoteResponse map(Poll poll){
         VoteResponse voteResponse = new VoteResponse();
         voteResponse.setPartyName(poll.getPartyName());
         voteResponse.setVoterId(poll.getVoterId());
+        voteResponse.setMessage(VOTE_SUCCESSFUL);
         return voteResponse;
     }
+
 
     public static Poll map(VoteRequest voteRequest) {
         Poll poll = new Poll();

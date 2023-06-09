@@ -8,4 +8,5 @@ public class VoteResponse {
     @Id
     private String voterId;
     private String PartyName;
+    private String message;
 }

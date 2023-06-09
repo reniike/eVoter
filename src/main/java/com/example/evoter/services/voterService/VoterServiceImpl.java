@@ -34,7 +34,8 @@ public class VoterServiceImpl implements VoterService {
         hashPassword(registerVoterRequest.getPassword());
         voterRepository.save(voter);
         RegisterVoterResponse registerVoterResponse = buildVoterResponse(voter);
-        log.info(String.format(VOTER_REGISTERED_SUCCESSFULLY, registerVoterResponse.getEmailAddress()));
+        registerVoterResponse.setMessage(String.format(VOTER_REGISTERED_SUCCESSFULLY));
+        log.info(String.format(VOTER_REGISTERED_SUCCESSFULLY));
         return registerVoterResponse;
     }
 
@@ -55,7 +56,6 @@ public class VoterServiceImpl implements VoterService {
         return RegisterVoterResponse.builder()
                 .name(voter.getFirstName() + " " + voter.getLastName())
                 .voterId(voter.getId())
-                .emailAddress(voter.getEmailAddress())
                 .build();
     }
     @Override

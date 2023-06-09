@@ -1,2 +1,0 @@
-# eVoter
-eVoting Application

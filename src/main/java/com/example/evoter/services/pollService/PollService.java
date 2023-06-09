@@ -8,7 +8,7 @@ import com.example.evoter.exceptions.PartyDoesNotExistException;
 import java.util.TreeMap;
 
 public interface PollService {
-    VoteResponse castVote(VoteRequest voteRequest) throws OverVotingException, PartyDoesNotExistException;
+    VoteResponse castVote(VoteRequest voteRequest);
     long countAllVote(String partyName);
 
     TreeMap<String, Long> getResult();

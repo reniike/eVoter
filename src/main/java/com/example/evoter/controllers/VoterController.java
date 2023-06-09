@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class VoterController {
     private final VoterService voterService;
-
     @PostMapping("/voter/register")
     public ResponseEntity<?> register(@RequestBody RegisterVoterRequest request) {
         RegisterVoterResponse response = voterService.registerNewVoter(request);
