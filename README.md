@@ -52,3 +52,24 @@ The E-Voting App is a Java-based application that facilitates the electronic vot
     "message": "Voter registered successfully"
 }
 ```
+### Voter Login API
+- Endpoint: `/voter/login`
+- Method: POST
+
+#### Request
+
+```json
+{
+  "emailAddress": "aliyahrenike@gmail.com",
+  "password": "1234"
+}
+```
+
+#### Response
+
+```json
+{
+  "id": "64827d2aaa3e626159f1f1ed",
+  "message": "Voter successfully logged in"
+}
+```
