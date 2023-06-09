@@ -14,9 +14,9 @@ The E-Voting App is a Java-based application that facilitates the electronic vot
 ## Technologies Used
 - Java
 - Spring Boot
-- Spring MVC
 - MongoDB
 - Postman (For API testing and documentation)
+- Layered Architecture
 
 ## Features
 - Register Voter: Allows the registration of eligible voters, ensuring their inclusion in the electoral roll.
